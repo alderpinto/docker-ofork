@@ -20,14 +20,14 @@ perl-css-minifier-xs perl-dbd-pg perl-dbd-mysql perl-dbd-odbc perl-javascript-mi
 perl-encode-hanextra perl-data-optlist perl-io-gzip perl-pathtools perl-scalar-list-utils&&\
 cpanm CGI::Compile Plack::Middleware::Expires Plack::Middleware::Session::Cookie
 
-RUN wget https://download.znuny.org/releases/znuny-7.0.7.tar.gz && \
-tar xfz znuny-7.0.7.tar.gz && \
-mv /opt/znuny-7.0.7 /opt/znuny
+RUN wget https://ftp.o-fork.de/ofork-10.0.6.tar.gz && \
+tar xfz ofork-10.0.6.tar.gz && \
+mv /opt/ofork-10.0.6 /opt/ofork
 
-RUN adduser -h /opt/znuny -G nginx -s /bin/sh -H -D znuny&&\
-/opt/znuny/bin/otrs.SetPermissions.pl --znuny-user=znuny --web-group=nginx &&\
-echo "*/5 * * * * /opt/znuny/bin/znuny.Daemon.pl start >> /dev/null" >> /var/spool/cron/crontabs/otrs &&\
-cp -prf /opt/znuny/Kernel/Config.pm.dist /opt/znuny/Kernel/Config.pm
+RUN adduser -h /opt/ofork -G nginx -s /bin/sh -H -D ofork && \
+/opt/ofork/bin/ofork.SetPermissions.pl --ofork-user=ofork --web-group=nginx && \
+echo "*/5 * * * * /opt/ofork/bin/ofork.Daemon.pl start >> /dev/null" >> /var/spool/cron/crontabs/otrs && \
+cp -prf /opt/ofork/Kernel/Config.pm.dist /opt/ofork/Kernel/Config.pm
 
 ADD supervisord.conf /etc/
 
@@ -42,8 +42,8 @@ rm -rf /root/.cpanm
 
 RUN mkdir /app &&\
 mkdir /app-files &&\
-mv /opt/znuny /app-files/. &&\
-rm -rf /opt/znuny-7.0.7.tar.gz &&\
+mv /opt/ofork /app-files/. &&\
+rm -rf /opt/ofork-10.0.6.tar.gz &&\
 chmod 755 /run.sh
 
 EXPOSE 8880 8881

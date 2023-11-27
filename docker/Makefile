@@ -1,7 +1,7 @@
 
 DOCKER_ID ?= alderpinto
-IMAGE = znuny7
-VERSION ?= latest
+IMAGE = ofork
+VERSION ?= 10.0.6
 
 .PHONY: build
 build:
