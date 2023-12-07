@@ -1,16 +1,16 @@
 version: "3.8"
 
 services:
-###Iniciar página: http://localhost:8280/ofork/index.pl
+###Iniciar página: http://localhost:8480/ofork/index.pl
 ###Usuário: root@localhost
-###Senha: h5vPBSBu6gWb1Cwx
+###Senha: Yk3GDP1KZcpXgJA2
   ofork:
-    image: alderpinto/ofork:10.0.6
+    image: alderpinto/ofork:11.0.1
     restart: always
     ports:
 #      - 443:443
-      - 8280:8880
-      - 8281:8881
+      - 8480:8880
+      - 8481:8881
     env_file: .env      
     volumes:
 #      - ./letsencrypt:/etc/letsencrypt
@@ -21,7 +21,7 @@ services:
       - postgres
   postgres:
 ###Usuário: ofork
-###Senha: VrvaN5FCbVw4EKxn  
+###Senha: Muzv5oHawNVmgmDC  
     image: postgres:15
     restart: always
     environment:

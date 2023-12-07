@@ -1,4 +1,6 @@
 FROM nginx:1.23.4-alpine3.17-perl
+LABEL maintainer="Alder Pinto <alder.pinto@gmail.com>"
+ENV OFORK_VERSION=11.0.1
 
 WORKDIR /opt
 
@@ -20,9 +22,14 @@ perl-css-minifier-xs perl-dbd-pg perl-dbd-mysql perl-dbd-odbc perl-javascript-mi
 perl-encode-hanextra perl-data-optlist perl-io-gzip perl-pathtools perl-scalar-list-utils&&\
 cpanm CGI::Compile Plack::Middleware::Expires Plack::Middleware::Session::Cookie
 
-RUN wget https://ftp.o-fork.de/ofork-10.0.6.tar.gz && \
-tar xfz ofork-10.0.6.tar.gz && \
-mv /opt/ofork-10.0.6 /opt/ofork
+RUN apk add --no-cache make
+RUN apk add --no-cache perl-app-cpanminus
+RUN cpanm App::cpm
+RUN cpm install --global Types::Standard
+
+RUN wget https://ftp.o-fork.de/ofork-${OFORK_VERSION}.tar.gz && \
+tar xfz ofork-${OFORK_VERSION}.tar.gz && \
+mv /opt/ofork-${OFORK_VERSION} /opt/ofork
 
 RUN adduser -h /opt/ofork -G nginx -s /bin/sh -H -D ofork && \
 /opt/ofork/bin/ofork.SetPermissions.pl --ofork-user=ofork --web-group=nginx && \
@@ -43,7 +50,7 @@ rm -rf /root/.cpanm
 RUN mkdir /app &&\
 mkdir /app-files &&\
 mv /opt/ofork /app-files/. &&\
-rm -rf /opt/ofork-10.0.6.tar.gz &&\
+rm -rf /opt/ofork-${OFORK_VERSION}.tar.gz &&\
 chmod 755 /run.sh
 
 EXPOSE 8880 8881
